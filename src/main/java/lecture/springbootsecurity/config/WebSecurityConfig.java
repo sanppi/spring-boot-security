@@ -41,6 +41,12 @@ public class WebSecurityConfig {
             http
                     .cors(Customizer.withDefaults())
                     .csrf(CsrfConfigurer::disable) // post, put 요청을 허용
+                    .logout(auth -> auth
+                            .logoutUrl("/auth/logout")
+                            .logoutSuccessHandler((request, response, authentication) -> {
+                                response.setStatus(200);
+                            })
+                    )
                     .authorizeHttpRequests(authorize->authorize
                     .requestMatchers("/auth/**").permitAll()
 //                    .requestMatchers("/admin/**").hasRole("ADMIN")
